@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: quotes_db
+    environment:
+      POSTGRES_USER: quotes_user
+      POSTGRES_PASSWORD: quotes_password
+      POSTGRES_DB: quotes_database
+    volumes:
+      - quotes_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+volumes:
+  quotes_data:
