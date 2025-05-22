@@ -14,7 +14,7 @@ func NewQuoteDriver(adapter Adapter) *QuoteDriver {
 	return &QuoteDriver{adapter: adapter}
 }
 
-func (d *QuoteDriver) CreateQuote(ctx context.Context, quote models.Quote) error {
+func (d *QuoteDriver) CreateQuote(ctx context.Context, quote *models.Quote) error {
 	_, err := d.adapter.Exec(
 		ctx,
 		queryCreateQuote,
@@ -54,7 +54,7 @@ func (d *QuoteDriver) GetAllQuotes(ctx context.Context) ([]models.Quote, error) 
 	return quotes, nil
 }
 
-func (d *QuoteDriver) GetQuoteByAuthor(ctx context.Context, author string) ([]models.Quote, error) {
+func (d *QuoteDriver) GetQuotesByAuthor(ctx context.Context, author string) ([]models.Quote, error) {
 	rows, err := d.adapter.Query(ctx, queryGetQuoteByAuthor, author)
 	if err != nil {
 		return nil, err

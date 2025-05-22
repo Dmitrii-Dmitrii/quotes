@@ -10,17 +10,17 @@ import (
 )
 
 type QuoteService struct {
-	driver *drivers.QuoteDriver
+	driver drivers.QuoteDriverInterface
 }
 
-func NewQuoteService(driver *drivers.QuoteDriver) *QuoteService {
+func NewQuoteService(driver drivers.QuoteDriverInterface) *QuoteService {
 	return &QuoteService{driver: driver}
 }
 
 func (s *QuoteService) CreateQuote(ctx context.Context, quoteDto dtos.QuoteDto) (*dtos.QuoteDto, error) {
 	id := generateUuid()
 
-	quote := models.Quote{Id: id, Author: *quoteDto.Author, Text: *quoteDto.Text}
+	quote := &models.Quote{Id: id, Author: *quoteDto.Author, Text: *quoteDto.Text}
 	err := s.driver.CreateQuote(ctx, quote)
 	if err != nil {
 		return nil, err
@@ -55,8 +55,8 @@ func (s *QuoteService) GetAllQuotes(ctx context.Context) ([]dtos.QuoteDto, error
 	return quoteDtos, nil
 }
 
-func (s *QuoteService) GetQuoteByAuthor(ctx context.Context, author string) ([]dtos.QuoteDto, error) {
-	quotes, err := s.driver.GetQuoteByAuthor(ctx, author)
+func (s *QuoteService) GetQuotesByAuthor(ctx context.Context, author string) ([]dtos.QuoteDto, error) {
+	quotes, err := s.driver.GetQuotesByAuthor(ctx, author)
 	if err != nil {
 		return nil, err
 	}

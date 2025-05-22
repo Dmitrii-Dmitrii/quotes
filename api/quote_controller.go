@@ -12,10 +12,10 @@ import (
 )
 
 type QuoteController struct {
-	service *services.QuoteService
+	service services.QuoteServiceInterface
 }
 
-func NewQuoteController(service *services.QuoteService) *QuoteController {
+func NewQuoteController(service services.QuoteServiceInterface) *QuoteController {
 	return &QuoteController{service: service}
 }
 
@@ -68,7 +68,7 @@ func (c *QuoteController) getQuotes(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if author != "" {
-		quotes, err = c.service.GetQuoteByAuthor(r.Context(), author)
+		quotes, err = c.service.GetQuotesByAuthor(r.Context(), author)
 	} else {
 		quotes, err = c.service.GetAllQuotes(r.Context())
 	}

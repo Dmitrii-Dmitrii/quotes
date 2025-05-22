@@ -29,4 +29,11 @@ const (
 	FROM quotes
 	WHERE id = $1
 `
+	createTestSchema = `
+	CREATE TABLE IF NOT EXISTS quotes (
+		id UUID PRIMARY KEY,
+		author TEXT NOT NULL,
+		text TEXT NOT NULL
+	)
+`
 )
